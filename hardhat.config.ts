@@ -23,7 +23,7 @@ task("balance", "Prints the balance account");
 
 const config: HardhatUserConfig = {
   solidity: "0.8.13",
-  defaultNetwork: "polygon_mumbai",
+  defaultNetwork: "polygon_mainnet",
 
   networks: {
     hardhat: {},

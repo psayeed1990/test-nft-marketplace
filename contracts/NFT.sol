@@ -45,7 +45,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 
 //implement 2. create an NFT smart contract
 contract NFT is ERC721URIStorage, Ownable {
-    uint256 public mintPrice = 0.001 ether;
+    uint256 public mintPrice = 0.000001 ether;
     uint256 public totalSupply;
     uint256 public maxSupply;
     bool public isMintEnabled;
@@ -53,12 +53,6 @@ contract NFT is ERC721URIStorage, Ownable {
     bool public isFrozen;
     bool public isPaused;
     mapping(address => uint256) public mintedWallets;
-
-    struct tokenMetaData {
-        uint256 tokenId;
-        uint256 timeStamp;
-        string tokenURI;
-    }
 
     constructor() payable ERC721("SMAX", "SMX") {
         maxSupply = 1000;
@@ -80,7 +74,11 @@ contract NFT is ERC721URIStorage, Ownable {
     }
 
     //* mint token to address
-    function mint(address _to, uint256 _tokenId) external {
+    function mint(
+        address _to,
+        uint256 _tokenId,
+        string memory tokenURI
+    ) external {
         require(isMintEnabled, "Minting not enabled");
         require(!isFrozen, "Token is frozen");
         require(!isPaused, "Token is paused");
@@ -93,5 +91,6 @@ contract NFT is ERC721URIStorage, Ownable {
         totalSupply++;
         // uint256 tokenId = totalSupply;
         _safeMint(_to, _tokenId);
+        _setTokenURI(_tokenId, tokenURI);
     }
 }
